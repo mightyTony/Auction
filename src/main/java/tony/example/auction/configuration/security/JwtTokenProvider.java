@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 import tony.example.auction.common.Constrant;
 import tony.example.auction.domain.Role;
 import tony.example.auction.domain.User;
+import tony.example.auction.exception.CustomException;
+import tony.example.auction.exception.ErrorCode;
 import tony.example.auction.repository.UserRepository;
 import tony.example.auction.service.AuthService;
 
@@ -42,7 +44,7 @@ public class JwtTokenProvider {
 
     public Role getUserRole(String userId) {
         User user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         return user.getRole();
     }

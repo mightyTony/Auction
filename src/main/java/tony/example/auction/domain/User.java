@@ -71,4 +71,22 @@ public class User extends BaseTimeEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public static User forUser(String userId, String username, String password, String name, String email, String phoneNumber) {
+        return new User(userId, username, password, name, email, phoneNumber, Role.ROLE_USER);
+    }
+
+    public static User forAdmin(String userId, String username, String password, String name, String email, String phoneNumber) {
+        return new User(userId, username, password, name, email, phoneNumber, Role.ROLE_ADMIN);
+    }
+
+    private User(String userId, String username, String password, String name, String email, String phoneNumber, Role role) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
 }

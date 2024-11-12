@@ -1,6 +1,8 @@
 package tony.example.auction.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,9 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tony.example.auction.common.Constrant;
 import tony.example.auction.configuration.security.JwtTokenProvider;
+import tony.example.auction.domain.dto.request.JoinRequest;
 import tony.example.auction.domain.dto.request.LoginRequest;
 import tony.example.auction.domain.dto.response.TokenResponse;
 import tony.example.auction.service.AuthService;
+import tony.example.auction.validator.AuthValidator;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -24,6 +28,19 @@ public class AuthController {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthService authService;
+    private final AuthValidator authValidator;
+
+    @Operation(summary = "회원가입", description = "회원가입을 수행하여 새로운 사용자를 생성합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원가입 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청 데이터", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "409", description = "이미 존재하는 사용자 ID 또는 이메일", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @PostMapping("/join")
+    public ResponseEntity<?> join(@RequestBody JoinRequest request) {
+        authService.join(request);
+        return ResponseEntity.ok().body("회원가입 성공");
+    }
 
     @Operation(summary = "로그인", description = "아이디와 비밀번호로 로그인하여 AccessToken과 Refresh Token을 발급합니다.")
     @ApiResponses({
@@ -32,9 +49,8 @@ public class AuthController {
     })
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request, HttpServletResponse response) {
-        if(!authService.authCheck(request.getUserId(), request.getPassword())) {
-            throw new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다.");
-        }
+        // 아이디, 비번 검증
+        authValidator.authCheck(request.getUserId(), request.getPassword());
 
         // 인증 성공 시 AccessToken, Refresh Token 생성, 발급
         TokenResponse tokenResponse = authService.sendTokens(request.getUserId());

@@ -6,12 +6,17 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tony.example.auction.common.Constrant;
 import tony.example.auction.configuration.security.JwtTokenProvider;
 import tony.example.auction.domain.Role;
 import tony.example.auction.domain.User;
+import tony.example.auction.domain.dto.request.JoinRequest;
 import tony.example.auction.domain.dto.response.TokenResponse;
+import tony.example.auction.exception.CustomException;
+import tony.example.auction.exception.ErrorCode;
 import tony.example.auction.repository.UserRepository;
+import tony.example.auction.validator.AuthValidator;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -25,23 +30,14 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final AuthValidator authValidator;
     public Role getUserRole(String userId) {
         User user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         return user.getRole();
     }
 
-    // 아이디, 비번 체크
-    public boolean authCheck(String userId, String rawPassword) {
-        User user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-
-        if(!passwordEncoder.matches(rawPassword, user.getPassword())) {
-            return false;
-        }
-        return true;
-    }
 
     // 로그인 처리 및 토큰 발급
     public TokenResponse sendTokens(String userId) {
@@ -66,5 +62,23 @@ public class AuthService {
         }
 
         return jwtTokenProvider.createAccessToken(userId);
+    }
+
+    @Transactional
+    public User join(JoinRequest request) {
+        // 유효성 검사
+        authValidator.validate(request);
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        User user = User.forUser(
+                request.getUserId(),
+                request.getUsername(),
+                encodedPassword,
+                request.getName(),
+                request.getEmail(),
+                request.getPhoneNumber());
+
+        return userRepository.save(user);
     }
 }
