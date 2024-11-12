@@ -108,7 +108,7 @@ public class AuthController {
             @ApiResponse(responseCode = "403", description = "유효하지 않거나 만료된 Refresh Token")
     })
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponse> refresh(@CookieValue(value = "refreshToken") String refreshToken, HttpServletResponse response) {
+    public ResponseEntity<TokenResponse> refresh(@CookieValue(value = "refreshToken") String refreshToken) {
         if(refreshToken == null) {
             throw new RuntimeException("리프레시 토큰이 존재하지 않습니다.");
         }

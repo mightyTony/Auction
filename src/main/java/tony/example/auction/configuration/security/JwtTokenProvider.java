@@ -120,19 +120,19 @@ public class JwtTokenProvider {
         }
     }
 
-    public String reissueAccessToken(String refreshToken, String userId) {
-        // refresh token 유효성 검사
-        if(!validateRefreshToken(refreshToken, userId)) {
-            log.error("[reissueAccessToken] 리프레시 토큰 유효성 검사 실패");
-            throw new IllegalArgumentException("리프레시 토큰이 유효하지 않습니다.");
-        }
-
-        // Role 조회
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
-        //Role role = ((User) userDetails).getRole();
-
-        return createAccessToken(userId);
-    }
+//    public String reissueAccessToken(String refreshToken, String userId) {
+//        // refresh token 유효성 검사
+//        if(!validateRefreshToken(refreshToken, userId)) {
+//            log.error("[reissueAccessToken] 리프레시 토큰 유효성 검사 실패");
+//            throw new IllegalArgumentException("리프레시 토큰이 유효하지 않습니다.");
+//        }
+//
+//        // Role 조회
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+//        //Role role = ((User) userDetails).getRole();
+//
+//        return createAccessToken(userId);
+//    }
 
     // Refresh token 유효성 검사, redis에 저장된 refresh token과 비교
     public boolean validateRefreshToken(String refreshToken, String userId) {
