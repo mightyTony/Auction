@@ -3,22 +3,17 @@ package tony.example.auction.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tony.example.auction.common.Constrant;
 import tony.example.auction.configuration.security.JwtTokenProvider;
-import tony.example.auction.domain.Role;
 import tony.example.auction.domain.User;
 import tony.example.auction.domain.dto.request.JoinRequest;
 import tony.example.auction.domain.dto.response.TokenResponse;
-import tony.example.auction.exception.CustomException;
-import tony.example.auction.exception.ErrorCode;
 import tony.example.auction.repository.UserRepository;
 import tony.example.auction.validator.AuthValidator;
 
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -31,13 +26,6 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
     private final AuthValidator authValidator;
-    public Role getUserRole(String userId) {
-        User user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        return user.getRole();
-    }
-
 
     // 로그인 처리 및 토큰 발급
     public TokenResponse sendTokens(String userId) {
@@ -65,7 +53,7 @@ public class AuthService {
     }
 
     @Transactional
-    public User join(JoinRequest request) {
+    public void join(JoinRequest request) {
         // 유효성 검사
         authValidator.validate(request);
         // 비밀번호 암호화
@@ -79,6 +67,6 @@ public class AuthService {
                 request.getEmail(),
                 request.getPhoneNumber());
 
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 }

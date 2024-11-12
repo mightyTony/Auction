@@ -1,7 +1,6 @@
 package tony.example.auction.validator;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import tony.example.auction.domain.User;
