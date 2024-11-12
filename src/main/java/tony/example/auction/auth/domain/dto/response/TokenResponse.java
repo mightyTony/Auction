@@ -1,6 +1,5 @@
-package tony.example.auction.domain.dto.response;
+package tony.example.auction.auth.domain.dto.response;
 
-import lombok.Data;
 import lombok.Getter;
 
 @Getter

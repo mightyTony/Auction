@@ -14,11 +14,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import tony.example.auction.common.Constrant;
-import tony.example.auction.domain.Role;
-import tony.example.auction.domain.User;
+import tony.example.auction.auth.domain.Role;
+import tony.example.auction.auth.domain.User;
 import tony.example.auction.exception.CustomException;
 import tony.example.auction.exception.ErrorCode;
-import tony.example.auction.repository.UserRepository;
+import tony.example.auction.auth.repository.UserRepository;
 
 import java.security.Key;
 import java.util.Date;

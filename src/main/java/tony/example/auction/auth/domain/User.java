@@ -1,4 +1,4 @@
-package tony.example.auction.domain;
+package tony.example.auction.auth.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

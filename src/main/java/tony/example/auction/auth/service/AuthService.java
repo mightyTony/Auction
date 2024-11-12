@@ -1,4 +1,4 @@
-package tony.example.auction.service;
+package tony.example.auction.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tony.example.auction.common.Constrant;
 import tony.example.auction.configuration.security.JwtTokenProvider;
-import tony.example.auction.domain.User;
-import tony.example.auction.domain.dto.request.JoinRequest;
-import tony.example.auction.domain.dto.response.TokenResponse;
-import tony.example.auction.repository.UserRepository;
-import tony.example.auction.validator.AuthValidator;
+import tony.example.auction.auth.domain.User;
+import tony.example.auction.auth.domain.dto.request.JoinRequest;
+import tony.example.auction.auth.domain.dto.response.TokenResponse;
+import tony.example.auction.auth.repository.UserRepository;
+import tony.example.auction.auth.validator.AuthValidator;
 
 import java.util.concurrent.TimeUnit;
 

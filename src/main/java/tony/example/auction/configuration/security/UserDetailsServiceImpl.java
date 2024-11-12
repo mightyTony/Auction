@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tony.example.auction.exception.CustomException;
 import tony.example.auction.exception.ErrorCode;
-import tony.example.auction.repository.UserRepository;
+import tony.example.auction.auth.repository.UserRepository;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,10 +1,13 @@
 package tony.example.auction.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
@@ -12,5 +15,11 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = e.getErrorCode();
         ErrorResponse response = new ErrorResponse(errorCode);
         return new ResponseEntity<>(response, errorCode.getStatus());
+    }
+
+    // chat error
+    @MessageExceptionHandler
+    public void handleException(RuntimeException e) {
+        log.info("Exception : {}", e.getMessage());
     }
 }

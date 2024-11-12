@@ -1,13 +1,13 @@
-package tony.example.auction.validator;
+package tony.example.auction.auth.validator;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import tony.example.auction.domain.User;
-import tony.example.auction.domain.dto.request.JoinRequest;
+import tony.example.auction.auth.domain.User;
+import tony.example.auction.auth.domain.dto.request.JoinRequest;
 import tony.example.auction.exception.CustomException;
 import tony.example.auction.exception.ErrorCode;
-import tony.example.auction.repository.UserRepository;
+import tony.example.auction.auth.repository.UserRepository;
 
 @Component
 @RequiredArgsConstructor

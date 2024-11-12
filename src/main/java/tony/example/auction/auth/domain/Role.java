@@ -1,4 +1,4 @@
-package tony.example.auction.domain;
+package tony.example.auction.auth.domain;
 
 public enum Role {
     ROLE_USER("ROLE_USER"),

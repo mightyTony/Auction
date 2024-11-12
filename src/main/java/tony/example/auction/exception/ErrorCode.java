@@ -13,9 +13,10 @@ public enum ErrorCode {
 
     // AUTH
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "AUTH-001", "아이디 또는 비밀번호가 일치하지 않습니다."),
-    INVALID_REFRESH_TOKEN(HttpStatus.FORBIDDEN, "AUTH-002", "유효하지 않거나 만료된 Refresh Token");
+    INVALID_REFRESH_TOKEN(HttpStatus.FORBIDDEN, "AUTH-002", "유효하지 않거나 만료된 Refresh Token"),
 
-
+    // Chat
+    NOT_FOUND_CHAT_ROOM(HttpStatus.NOT_FOUND, "CHAT-001", "채팅방을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;

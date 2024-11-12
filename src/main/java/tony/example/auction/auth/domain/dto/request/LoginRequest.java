@@ -1,7 +1,6 @@
-package tony.example.auction.domain.dto.request;
+package tony.example.auction.auth.domain.dto.request;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class LoginRequest {

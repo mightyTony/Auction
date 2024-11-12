@@ -1,4 +1,4 @@
-package tony.example.auction.controller;
+package tony.example.auction.auth.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,17 +9,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tony.example.auction.common.Constrant;
 import tony.example.auction.configuration.security.JwtTokenProvider;
-import tony.example.auction.domain.dto.request.JoinRequest;
-import tony.example.auction.domain.dto.request.LoginRequest;
-import tony.example.auction.domain.dto.response.TokenResponse;
-import tony.example.auction.service.AuthService;
-import tony.example.auction.validator.AuthValidator;
+import tony.example.auction.auth.domain.dto.request.JoinRequest;
+import tony.example.auction.auth.domain.dto.request.LoginRequest;
+import tony.example.auction.auth.domain.dto.response.TokenResponse;
+import tony.example.auction.auth.service.AuthService;
+import tony.example.auction.auth.validator.AuthValidator;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -106,10 +108,11 @@ public class AuthController {
             @ApiResponse(responseCode = "403", description = "유효하지 않거나 만료된 Refresh Token")
     })
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@CookieValue(value = "refreshToken") String refreshToken, HttpServletResponse response) {
+    public ResponseEntity<TokenResponse> refresh(@CookieValue(value = "refreshToken") String refreshToken, HttpServletResponse response) {
         if(refreshToken == null) {
             throw new RuntimeException("리프레시 토큰이 존재하지 않습니다.");
         }
+        log.info("refreshToken: {}", refreshToken);
 
         String userId = jwtTokenProvider.getUsername(refreshToken);
         String newAccessToken = authService.refreshAccessToken(refreshToken, userId);
