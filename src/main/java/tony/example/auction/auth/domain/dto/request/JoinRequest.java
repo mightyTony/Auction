@@ -3,9 +3,9 @@ package tony.example.auction.auth.domain.dto.request;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Schema(description = "회원가입 요청 데이터")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class JoinRequest {
@@ -26,4 +26,13 @@ public class JoinRequest {
 
     @Schema(description = "전화번호", example = "010-1234-5678")
     private String phoneNumber;
+
+    public JoinRequest(String userId, String username, String password, String name, String email, String phoneNumber) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
 }

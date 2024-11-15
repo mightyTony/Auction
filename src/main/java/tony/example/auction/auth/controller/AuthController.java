@@ -20,6 +20,8 @@ import tony.example.auction.auth.domain.dto.request.LoginRequest;
 import tony.example.auction.auth.domain.dto.response.TokenResponse;
 import tony.example.auction.auth.service.AuthService;
 import tony.example.auction.auth.validator.AuthValidator;
+import tony.example.auction.exception.CustomException;
+import tony.example.auction.exception.ErrorCode;
 
 @Slf4j
 @RestController
@@ -110,7 +112,7 @@ public class AuthController {
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponse> refresh(@CookieValue(value = "refreshToken") String refreshToken) {
         if(refreshToken == null) {
-            throw new RuntimeException("리프레시 토큰이 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.NOT_FOUND_REFRESH_TOKEN); //RuntimeException("리프레시 토큰이 존재하지 않습니다.");
         }
         log.info("refreshToken: {}", refreshToken);
 
