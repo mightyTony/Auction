@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 @Getter
 public class ApiResponse<T> {
 
-    private boolean success = true;
+    private final boolean success = true;
     private T data;
     private String message;
-    private LocalDateTime timestamp = LocalDateTime.now();
+    private final LocalDateTime timestamp = LocalDateTime.now();
 
     public ApiResponse(T data, String message) {
         this.data = data;

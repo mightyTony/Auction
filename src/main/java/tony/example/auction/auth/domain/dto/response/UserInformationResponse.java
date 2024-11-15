@@ -1,7 +1,6 @@
 package tony.example.auction.auth.domain.dto.response;
 
 import lombok.Data;
-import lombok.Getter;
 import tony.example.auction.auth.domain.Role;
 import tony.example.auction.auth.domain.User;
 
