@@ -2,9 +2,8 @@ package tony.example.auction.auth.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import tony.example.auction.auth.domain.dto.request.UserInformationUpdateRequest;
 import tony.example.auction.auth.domain.dto.response.UserInformationResponse;
 import tony.example.auction.auth.service.UserService;
 import tony.example.auction.auth.validator.AuthValidator;
@@ -28,5 +27,19 @@ public class UserController {
         UserInformationResponse response = userService.getUserInformation(userId);
 
         return ResponseEntity.ok(ApiResponse.success(response, "사용자 정보 조회 성공"));
+    }
+
+    // 사용자 정보 수정 /api/users/{id}`
+    @PatchMapping("/info/update/{userId}")
+    public ResponseEntity<ApiResponse<UserInformationResponse>> updateUserInformation(
+            @PathVariable String userId,
+            @RequestBody UserInformationUpdateRequest request) {
+        // 본인 인지 확인
+        authValidator.isYou(userId);
+
+        // 사용자 정보 수정
+        UserInformationResponse response = userService.updateUserInformation(userId, request);
+
+        return ResponseEntity.ok(ApiResponse.success(response, "사용자 정보 수정 성공"));
     }
 }

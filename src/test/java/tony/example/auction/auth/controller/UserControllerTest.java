@@ -7,11 +7,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import tony.example.auction.auth.domain.User;
 import tony.example.auction.auth.domain.dto.request.JoinRequest;
+import tony.example.auction.auth.domain.dto.request.UserInformationUpdateRequest;
 import tony.example.auction.auth.domain.dto.response.UserInformationResponse;
 import tony.example.auction.auth.repository.UserRepository;
 import tony.example.auction.auth.service.AuthService;
 import tony.example.auction.auth.service.UserService;
 import tony.example.auction.auth.validator.AuthValidator;
+import tony.example.auction.exception.CustomException;
 
 import java.util.Optional;
 
@@ -65,4 +67,46 @@ class UserControllerTest {
         log.info("[사용자 정보 조회]");
         Assertions.assertEquals(user.get().getPhoneNumber(), userInformation.getPhoneNumber());
     }
+
+    @Test
+    @DisplayName("사용자 정보 수정 테스트")
+    void updateUserInformation() {
+        // given
+        String userId = "user1";
+        UserInformationResponse userInformation = userService.getUserInformation(userId);
+        Optional<User> user = userRepository.findByUserId(userId);
+
+        UserInformationUpdateRequest request = new UserInformationUpdateRequest(
+                "NewName1",
+                "NewEmail1@naver.com",
+                "010-1234-1234");
+
+        // when
+        UserInformationResponse updatedUserInformation = userService.updateUserInformation(userId, request);
+        Optional<User> updatedUser = userRepository.findByUserId(userId);
+
+        // then
+        log.info("[사용자 정보 수정]");
+        Assertions.assertEquals(request.getName(), updatedUser.get().getName());
+
+    }
+
+    @Test
+    @DisplayName("사용자 정보 수정 테스트/ 중복 된 정보 일 경우")
+    void updateUserInformationDuplicate() {
+        // given
+        String userId = "user1"; // 테스트 대상 사용자 ID
+        UserInformationUpdateRequest request = new UserInformationUpdateRequest(
+                "UpdatedName",           // 새 이름
+                "user2@example.com",     // 중복된 이메일 (user2가 이미 사용 중)
+                "010-1234-5672"          // 중복된 전화번호 (user2가 이미 사용 중)
+        );
+
+        log.info("[사용자 정보 수정/ 중복 된 정보 일 경우]");
+        // when & then
+        Assertions.assertThrows(CustomException.class, () -> {
+            userService.updateUserInformation(userId, request);
+        });
+    }
 }
+

@@ -20,11 +20,11 @@ public class AuthValidator {
     private final PasswordEncoder passwordEncoder;
 
     public void validate(JoinRequest request) {
-        log.info("[AuthValidator] validate 1");
+
         if(userRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
         }
-        log.info("[AuthValidator] validate 2");
+
         if(userRepository.existsByUserId(request.getUserId())) {
             throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
         }
@@ -49,5 +49,28 @@ public class AuthValidator {
         if(!currentUserId.equals(userId)) {
             throw new CustomException(ErrorCode.ACCESS_DENIED);
         }
+    }
+
+    // 유저 정보 중복 체크
+    public void isDuplicateInformation(String email, String phoneNumber) {
+        if(userRepository.existsByEmail(email)) {
+            throw new CustomException(ErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+        if(userRepository.existsByPhoneNumber(phoneNumber)) {
+            throw new CustomException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
+        }
+    }
+
+    // 유저 존재 체크
+    public void isUserExist(String userId) {
+        if(!userRepository.existsByUserId(userId)) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+    }
+
+    // 유저 존재 체크, 유저 반환
+    public User isUserExistReturnUser(String userId) {
+        return userRepository.findByUserId(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 }
