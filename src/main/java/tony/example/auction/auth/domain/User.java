@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,10 +15,13 @@ import tony.example.auction.common.BaseTimeEntity;
 import java.util.Collection;
 import java.util.Collections;
 
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "users")
+//@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
+//@Where(clause = "deleted = false")
 public class User extends BaseTimeEntity implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +48,8 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @Embedded
-//    private Address address;
+//    @Column(name = "deleted")
+//    private Boolean deleted = Boolean.FALSE;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -98,4 +104,8 @@ public class User extends BaseTimeEntity implements UserDetails {
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
+
+//    public void delete() {
+//        this.deleted = true;
+//    }
 }

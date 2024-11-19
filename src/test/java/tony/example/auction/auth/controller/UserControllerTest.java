@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.test.context.ActiveProfiles;
 import tony.example.auction.auth.domain.User;
 import tony.example.auction.auth.domain.dto.request.JoinRequest;
@@ -14,6 +16,7 @@ import tony.example.auction.auth.service.AuthService;
 import tony.example.auction.auth.service.UserService;
 import tony.example.auction.auth.validator.AuthValidator;
 import tony.example.auction.exception.CustomException;
+import tony.example.auction.exception.ErrorCode;
 
 import java.util.Optional;
 
@@ -107,6 +110,24 @@ class UserControllerTest {
         Assertions.assertThrows(CustomException.class, () -> {
             userService.updateUserInformation(userId, request);
         });
+    }
+
+    @Test
+    @DisplayName("사용자 삭제 테스트")
+    void deleteUser() {
+        // given
+        String userId = "user1";
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        // when
+        userService.deleteUser(userId);
+        Optional<User> deletedUser = userRepository.findByUserId(userId);
+        // then
+//        log.info("[사용자 삭제] deleted : {}", user.getDeleted());
+//        Assertions.assertEquals(true, user.getDeleted());
+
+        // 삭제되어도 위에서 조회해서 객체가 영속성 컨텍스트엔 남아있어서 null이 아님
+        Assertions.assertTrue(deletedUser.isEmpty());
     }
 }
 

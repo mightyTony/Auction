@@ -7,7 +7,7 @@
 - [x] **POST** `/api/users/refresh` - 토큰 갱신 ( `refreshToken` )
 - [x] **POST** `/api/users/info` - 특정 사용자 정보 조회 (`userId`)
 - [x] **PATCH** `/api/users/{id}` - 사용자 정보 수정 (`name`, `email`, `phoneNumber`)
-- [ ] **DELETE** `/api/users/{id}` - 사용자 삭제 (`{id}`)
+- [x] **DELETE** `/api/users/{id}` - 사용자 삭제 (`{id}`)
 
 ---
 

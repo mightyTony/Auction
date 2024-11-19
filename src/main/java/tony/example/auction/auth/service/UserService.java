@@ -48,4 +48,17 @@ public class UserService {
 
         return UserInformationResponse.from(user);
     }
+
+
+    // 사용자 삭제
+    @Transactional
+    public void deleteUser(String userId) {
+        // 유저 존재 검증 후 리턴
+        User user = authValidator.isUserExistReturnUser(userId);
+
+        //FIXME @where deprecated 되어있어서 추후 수정
+        //user.delete();
+
+        userRepository.delete(user);
+    }
 }
