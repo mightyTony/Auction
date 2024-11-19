@@ -19,7 +19,11 @@ import java.util.Collections;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = {
+        @Index(name = "idx_user_id", columnList = "user_id"),
+        @Index(name = "idx_username", columnList = "username"),
+        @Index(name = "idx_email", columnList = "email")
+})
 //@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
 //@Where(clause = "deleted = false")
 public class User extends BaseTimeEntity implements UserDetails {

@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import tony.example.auction.auth.domain.Role;
 import tony.example.auction.auth.domain.User;
 import tony.example.auction.auth.domain.dto.request.JoinRequest;
 import tony.example.auction.exception.CustomException;
@@ -49,6 +50,14 @@ public class AuthValidator {
         if(!currentUserId.equals(userId)) {
             throw new CustomException(ErrorCode.ACCESS_DENIED);
         }
+    }
+
+    public Role checkUserRoleReturnRole(String userId) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        Role role = user.getRole();
+
+        return role;
     }
 
     // 유저 정보 중복 체크
