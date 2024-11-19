@@ -1,11 +1,14 @@
 package tony.example.auction.api.order.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import tony.example.auction.api.product.item.domain.Item;
 import tony.example.auction.exception.CustomException;
 import tony.example.auction.exception.ErrorCode;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "order_item")
 public class OrderItem {
 

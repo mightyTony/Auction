@@ -4,13 +4,10 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tony.example.auction.auth.domain.Role;
 import tony.example.auction.auth.domain.User;
 import tony.example.auction.common.BaseTimeEntity;
 import tony.example.auction.exception.CustomException;
 import tony.example.auction.exception.ErrorCode;
-
-import java.util.List;
 
 @Getter
 @Entity

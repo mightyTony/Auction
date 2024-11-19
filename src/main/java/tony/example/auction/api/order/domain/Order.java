@@ -1,6 +1,8 @@
 package tony.example.auction.api.order.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import tony.example.auction.auth.domain.User;
 import tony.example.auction.common.BaseTimeEntity;
 
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
 public class Order extends BaseTimeEntity {
 

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import tony.example.auction.api.product.item.repository.ItemRepository;
-import tony.example.auction.auth.domain.Role;
 import tony.example.auction.exception.CustomException;
 import tony.example.auction.exception.ErrorCode;
 

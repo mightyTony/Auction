@@ -1,7 +1,6 @@
 package tony.example.auction.api.product.item.domain.dto.response;
 
 import lombok.Getter;
-import tony.example.auction.api.product.item.domain.Item;
 
 @Getter
 public class ItemCreateResponse {
