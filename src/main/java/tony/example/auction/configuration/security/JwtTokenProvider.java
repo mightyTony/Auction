@@ -88,7 +88,7 @@ public class JwtTokenProvider {
     public String getUsername(String token) {
         log.info("[getUsername] 토큰에서 username 조회 시작");
         String username = Jwts.parserBuilder().setSigningKey(secreyKey).build().parseClaimsJws(token).getBody().getSubject();
-        log.info("[getUsername] 토큰에서 username 조회 완료");
+        log.info("[getUsername] 토큰에서 username 조회 완료 ");
         return username;
     }
 
@@ -96,6 +96,7 @@ public class JwtTokenProvider {
         log.info("[getAuthentication] 토큰에서 Authentication 조회 시작");
         String username = getUsername(token);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        log.info("[getAuthentication] {} / {}", userDetails.getAuthorities(), userDetails.getUsername());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

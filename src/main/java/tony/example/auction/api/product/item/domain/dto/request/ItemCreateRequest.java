@@ -1,24 +1,39 @@
 package tony.example.auction.api.product.item.domain.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import tony.example.auction.api.product.item.domain.ItemCategory;
 
+@Schema(description = "상품 등록 요청 데이터")
+@NoArgsConstructor
 @Getter
 public class ItemCreateRequest {
+    @Schema(description = "상품 이름", example = "펜더 기타", required = true)
     @NotNull
-    private String name; // 상품 이름
+    private String name;
+
+    @Schema(description = "상품 코드(고유 값)", example = "Fender-JPN-TELE", required = true)
     @NotNull
-    private String code; // 상품 코드
+    private String code;
+
+    @Schema(description = "상품 카테고리", example = "GUITAR", required = true)
     @NotNull
-    private ItemCategory category; // 상품 카테고리
+    private ItemCategory category;
+
+    @Schema(description = "상품 가격", example = "1000", required = true)
     @NotNull
-    private Integer price; // 상품 가격
+    private Integer price;
+
+    @Schema(description = "상품 재고 수량", example = "50", required = true)
     @NotNull
-    private Integer quantity; // 상품 수량
+    private Integer quantity;
+
+    @Schema(description = "상품 이미지 URL", example = "http://example.com/item-image.jpg", required = true)
     @NotNull
-    private String imageUrl; // 상품 이미지 URL
+    private String imageUrl;
 
     // for test
     @Builder

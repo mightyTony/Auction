@@ -1,5 +1,6 @@
 package tony.example.auction.auth.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,12 @@ public class UserController {
     private final AuthValidator authValidator;
 
     // 특정 사용자 정보 조회 (userId)
+    @Operation(
+            summary = "사용자 정보 조회",
+            description = "특정 사용자의 정보를 조회합니다. 본인 확인을 통해 접근 가능하며, 사용자 ID를 입력받아 처리합니다."
+    )
     @PostMapping("/info")
-    public ResponseEntity<ApiResponse<UserInformationResponse>>  getUserInformation(String userId) {
+    public ResponseEntity<ApiResponse<UserInformationResponse>>  getUserInformation(@RequestParam(name = "userId") String userId) {
         // 본인 인지 확인
         authValidator.isYou(userId);
 

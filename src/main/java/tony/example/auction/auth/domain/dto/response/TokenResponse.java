@@ -1,7 +1,9 @@
 package tony.example.auction.auth.domain.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 public class TokenResponse {
 
@@ -12,6 +14,7 @@ public class TokenResponse {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
+
 
     private TokenResponse(String accessToken) {
         this.accessToken = accessToken;

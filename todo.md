@@ -12,12 +12,12 @@
 ---
 
 ## 상품 관리
-- [ ] **POST** `/api/items` - 새로운 상품 등록 (`name`, `description`, `code`)
-- [ ] **GET** `/api/items` - 전체 상품 목록 조회
-- [ ] **POST** `/api/items/details` - 특정 상품의 상세 정보 조회 (`itemId`)
+- [X] **POST** `/api/items` - 새로운 상품 등록 (`name`, `description`, `code`)
+- [ ] **GET** `/api/items` - 해당 카테고리 상품 목록 조회(검색)
+- [ ] **POST** `/api/items/details` - 특정 상품의 상세 정보 검색 (`상품 이름`)
 - [ ] **PUT** `/api/items/{id}` - 상품 정보 수정 (`name`, `description`, `code`)
 - [ ] **DELETE** `/api/items/{id}` - 상품 삭제 (`{id}`)
-
+- [ ] **GET** `/api/items/{id}` - 특정 상품 상세 정보 조회 (`{id}`)
 ---
 
 ## 상품 옵션 관리

@@ -68,5 +68,6 @@ public class AuthService {
                 request.getPhoneNumber());
 
         userRepository.save(user);
+        log.info("[AuthService] join - 회원가입 성공 / 아이디: {}, 닉네임: {}", user.getUserId(), user.getUsername());
     }
 }

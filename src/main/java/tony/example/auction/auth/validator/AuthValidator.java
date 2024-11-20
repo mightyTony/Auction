@@ -29,6 +29,7 @@ public class AuthValidator {
         if(userRepository.existsByUserId(request.getUserId())) {
             throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
         }
+        log.info("[AuthValidator] validate - 회원가입 유효성 검사 완료");
     }
 
     // 아이디, 비번 체크
@@ -47,6 +48,7 @@ public class AuthValidator {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserId = authentication.getName(); // 예: `userId`를 `username`으로 저장했을 경우
 
+        log.info("[AuthValidator] isYou - 현재 유저 아이디: {}, 파라미터 아이디 : {}", currentUserId, userId);
         if(!currentUserId.equals(userId)) {
             throw new CustomException(ErrorCode.ACCESS_DENIED);
         }
