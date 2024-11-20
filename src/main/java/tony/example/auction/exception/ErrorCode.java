@@ -28,7 +28,8 @@ public enum ErrorCode {
     NOT_ENOUGH_QUANTITY(HttpStatus.CONFLICT,"ITEM-003", "재고 수량이 부족 합니다." ),
     INVALID_ITEM_CODE(HttpStatus.BAD_REQUEST,"ITEM-004","아이템 코드는 3자 이상 20자 이하로 입력해주세요" ),
     INVALID_ITEM_PRICE(HttpStatus.BAD_REQUEST, "ITEM-005","가격은 0원 이상 이어야 합니다." ),
-    INVALID_ITEM_QUANTITY(HttpStatus.BAD_REQUEST,"ITEM-006" ,"수량은 0개 이상 이어야 합니다." ),;
+    INVALID_ITEM_QUANTITY(HttpStatus.BAD_REQUEST,"ITEM-006" ,"수량은 0개 이상 이어야 합니다." ),
+    INVALID_SORT(HttpStatus.BAD_REQUEST,"ITEM-007" , "유효하지 않은 정렬 필드입니다." ),;
 
     private final HttpStatus status;
     private final String code;

@@ -13,7 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import tony.example.auction.common.Constrant;
+import tony.example.auction.common.Constant;
 import tony.example.auction.auth.domain.Role;
 import tony.example.auction.auth.domain.User;
 import tony.example.auction.exception.CustomException;
@@ -56,7 +56,7 @@ public class JwtTokenProvider {
         String token = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + Constrant.ACCESS_TOKEN_VALID_TIME))
+                .setExpiration(new Date(now.getTime() + Constant.ACCESS_TOKEN_VALID_TIME))
                 .signWith(secreyKey, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -73,14 +73,14 @@ public class JwtTokenProvider {
         String refreshToken = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + Constrant.REFRESH_TOKEN_VALID_TIME))
+                .setExpiration(new Date(now.getTime() + Constant.REFRESH_TOKEN_VALID_TIME))
                 .signWith(secreyKey, SignatureAlgorithm.HS256)
                 .compact();
 
         log.info("[createRefreshToken] 리프레시 토큰 생성 완료");
 
         // redis에 refresh token 저장
-        redisTemplate.opsForValue().set(userId, refreshToken, Constrant.REFRESH_TOKEN_VALID_TIME, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(userId, refreshToken, Constant.REFRESH_TOKEN_VALID_TIME, TimeUnit.MILLISECONDS);
 
         return refreshToken;
     }

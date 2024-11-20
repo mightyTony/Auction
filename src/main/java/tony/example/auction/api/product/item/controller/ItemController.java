@@ -1,21 +1,22 @@
 package tony.example.auction.api.product.item.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import tony.example.auction.api.product.item.domain.dto.request.ItemCreateRequest;
+import tony.example.auction.api.product.item.domain.dto.response.ItemResponse;
 import tony.example.auction.api.product.item.service.ItemService;
 import tony.example.auction.auth.domain.User;
 import tony.example.auction.common.ApiResponse;
+import tony.example.auction.common.Constant;
+import tony.example.auction.exception.CustomException;
+import tony.example.auction.exception.ErrorCode;
 
 @RestController
 @Slf4j
@@ -45,6 +46,26 @@ public class ItemController {
         itemService.createItem(request, user);
 
         return ResponseEntity.ok(ApiResponse.success(null, "상품 등록 성공"));
+    }
+
+    @Operation(
+            summary = "상품 목록 조회",
+            description = "상품 목록을 조회합니다."
+    )
+    @GetMapping
+    public ResponseEntity<ApiResponse<Page<ItemResponse>>> getItemPages(
+            @RequestParam(defaultValue = "0", name = "page") int page,
+            @RequestParam(defaultValue = "20", name = "size") int size,
+            @RequestParam(defaultValue = "soldCount", name = "sort") String sort,
+            @RequestParam(defaultValue = "desc", name = "dir") String direction) {
+
+
+        if(!Constant.ALLOWED_SORT_FIELDS.contains(sort)){
+            throw new CustomException(ErrorCode.INVALID_SORT);
+        }
+        Page<ItemResponse> pagedItems = itemService.getItemPages(page, size, sort, direction);
+
+        return ResponseEntity.ok(ApiResponse.success(pagedItems, "상품 목록 조회 성공"));
     }
 
 

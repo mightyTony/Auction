@@ -50,17 +50,17 @@ class ItemControllerTest {
             authService.join(joinRequest);
         }
 
-//        for (int i=0; i<10; i++){
-//            ItemCreateRequest itemCreateRequest = ItemCreateRequest.builder()
-//                    .name("item 이름" + i)
-//                    .code("item 코드" + i)
-//                    .category(ItemCategory.ETC)
-//                    .price(1000)
-//                    .quantity(100)
-//                    .imageUrl("item 이미지 URL" + i)
-//                    .build();
-//            itemService.createItem(itemCreateRequest, userRepository.findByUserId("user" + i).get());
-//        }
+        for (int i=0; i<10; i++){
+            ItemCreateRequest itemCreateRequest = ItemCreateRequest.builder()
+                    .name("item 이름" + i)
+                    .code("item 코드" + i)
+                    .category(ItemCategory.ETC)
+                    .price(1000)
+                    .quantity(100)
+                    .imageUrl("item 이미지 URL" + i)
+                    .build();
+            itemService.createItem(itemCreateRequest, userRepository.findByUserId("user" + i).get());
+        }
     }
 
 //    @AfterEach

@@ -37,9 +37,13 @@ public class UserController {
     }
 
     // 사용자 정보 수정 /api/users/{id}`
+    @Operation(
+            summary = "사용자 정보 수정",
+            description = "사용자 정보를 수정. 본인 확인 후 사용자 정보를 수정합니다."
+    )
     @PatchMapping("/info/update/{userId}")
     public ResponseEntity<ApiResponse<UserInformationResponse>> updateUserInformation(
-            @PathVariable String userId,
+            @PathVariable("userId") String userId,
             @RequestBody UserInformationUpdateRequest request) {
         // 본인 인지 확인
         authValidator.isYou(userId);

@@ -12,6 +12,11 @@ import tony.example.auction.exception.ErrorCode;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "item",indexes = {
+        @Index(name = "price", columnList = "price"),
+        @Index(name = "soldCount", columnList = "soldCount"),
+        @Index(name = "name", columnList = "name")
+})
 public class Item extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +41,9 @@ public class Item extends BaseTimeEntity {
     @Column(nullable = false)
     private String imageUrl; // 상품 이미지
 
+    @Column(nullable = false)
+    private Integer soldCount = 0; // 판매된 수량
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User seller; // 판매자 id
@@ -51,7 +59,7 @@ public class Item extends BaseTimeEntity {
         this.quantity += quantity;
     }
 
-    public static Item createItem(String code, String name, ItemCategory itemCategory, Integer price, Integer quantity, String imageUrl, User seller) {
+    public static Item createItem(String code, String name, ItemCategory itemCategory, Integer price, Integer quantity, String imageUrl, Integer soldCount, User seller) {
         Item item = new Item();
         item.code = code;
         item.name = name;
@@ -59,6 +67,7 @@ public class Item extends BaseTimeEntity {
         item.price = price;
         item.quantity = quantity;
         item.imageUrl = imageUrl;
+        item.soldCount = soldCount;
         item.seller = seller;
         return item;
     }

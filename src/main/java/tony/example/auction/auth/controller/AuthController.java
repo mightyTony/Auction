@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tony.example.auction.common.Constrant;
+import tony.example.auction.common.Constant;
 import tony.example.auction.configuration.security.JwtTokenProvider;
 import tony.example.auction.auth.domain.dto.request.JoinRequest;
 import tony.example.auction.auth.domain.dto.request.LoginRequest;
@@ -62,7 +62,7 @@ public class AuthController {
         // 쿠키 생성
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", tokenResponse.getRefreshToken())
                 .httpOnly(true)
-                .maxAge(Constrant.REFRESH_TOKEN_VALID_TIME)
+                .maxAge(Constant.REFRESH_TOKEN_VALID_TIME)
                 .path("/")
                 .secure(true) // https only
                 .sameSite("none")

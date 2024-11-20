@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tony.example.auction.common.Constrant;
+import tony.example.auction.common.Constant;
 import tony.example.auction.configuration.security.JwtTokenProvider;
 import tony.example.auction.auth.domain.User;
 import tony.example.auction.auth.domain.dto.request.JoinRequest;
@@ -38,7 +38,7 @@ public class AuthService {
         String refreshToken = jwtTokenProvider.createRefreshToken(userId);
 
         // Redis에 리프레시 토큰 저장
-        redisTemplate.opsForValue().set(userId, refreshToken, Constrant.REFRESH_TOKEN_VALID_TIME, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(userId, refreshToken, Constant.REFRESH_TOKEN_VALID_TIME, TimeUnit.MILLISECONDS);
 
         return TokenResponse.of(accessToken, refreshToken);
     }

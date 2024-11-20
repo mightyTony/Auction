@@ -1,11 +1,14 @@
 package tony.example.auction.api.product.item.service;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tony.example.auction.api.product.item.domain.Item;
 import tony.example.auction.api.product.item.domain.dto.request.ItemCreateRequest;
+import tony.example.auction.api.product.item.domain.dto.response.ItemResponse;
 import tony.example.auction.api.product.item.repository.ItemRepository;
 import tony.example.auction.api.product.item.validator.ItemValidator;
 import tony.example.auction.auth.domain.Role;
@@ -51,6 +54,7 @@ public class ItemService {
                 request.getPrice(),
                 request.getQuantity(),
                 request.getImageUrl(),
+                0,
                 seller);
         itemRepository.save(item);
 
@@ -63,4 +67,22 @@ public class ItemService {
                 .orElseThrow(()-> new CustomException(ErrorCode.ONLY_SELLER_CAN_REGISTER_ITEM));
     }
 
+    public Page<ItemResponse> getItemPages(int page, int size, String sort, String direction) {
+        Sort sortOrder = Sort.by(Sort.Direction.fromString(direction), sort);
+        // page
+        Pageable pageable = PageRequest.of(page, size, sortOrder);
+
+        Page<Item> itemsPage = itemRepository.findAll(pageable);
+
+        return itemsPage.map(ItemResponse::from);
+
+    }
+
+//    public Page<Item> findAllItems() {
+//        return itemRepository.findAllItems();
+//        Pageable pageable = Pageable.unpaged();
+//        //PageRequest
+//    }
 }
+
+

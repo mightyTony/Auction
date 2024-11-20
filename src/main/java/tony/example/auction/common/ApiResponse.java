@@ -9,14 +9,24 @@ import java.time.LocalDateTime;
 @Getter
 public class ApiResponse<T> {
 
-    private final boolean success = true;
+    private boolean success;
     private T data;
     private String message;
+    private String errorCode;
     private final LocalDateTime timestamp = LocalDateTime.now();
 
+    // 성공 응답 생성자
     public ApiResponse(T data, String message) {
+        this.success = true;
         this.data = data;
         this.message = message;
+    }
+
+    // 실패
+    private ApiResponse(String message, String errorCode) {
+        this.success = false;
+        this.message = message;
+        this.errorCode = errorCode;
     }
 
     // 성공 응답 생성
@@ -24,5 +34,9 @@ public class ApiResponse<T> {
         return new ApiResponse<>(data, message);
     }
 
+    // 실패 응답
+    public static <T> ApiResponse<T> fail(String message, String errorCode) {
+        return new ApiResponse<>(message, errorCode);
+    }
 
 }
